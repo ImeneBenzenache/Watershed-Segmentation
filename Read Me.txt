@@ -1,0 +1,18 @@
+
+The first step of this method is to apply filters on our image to remove noise and superfluous details from it.
+We will start by applying Pyramid mean shift filtering which will remove all the details from the inside of the objects by smoothing the image multiple times.
+
+a pyramid operation is an operation of two steps. First the image is smoothed using a filter (any chosen filter). Then this process is repeated multiple times. During this process, the smoothness is increased and the resolution decreased.
+
+The second step is to convert our image from BGR to GrayScale. And then, using a threshold method (here we used the Otsu thresholding), we convert it from gray scale to binary. 
+
+This will lead us to our next step which will be calculating the euclidean distance transform which consists of calculating the distance between the each pixel and the nearest zero valued pixel to it. After that we find the local maximas with numpy function peak_local_max. the attribute indices is a boolean, if true the return will be an array representing peak coordinates and if false it will be an array shaped as the image with peak coordinates at True elements and the boolean False at false elements. Min distance is the minimum distance between peaks.
+
+
+After applying all these filters to our image, we have to define markers in order to apply the watershed function.
+
+We use a connected component analysis on our local Max matrix. this will give us our markers
+
+We then give our watershed function the markers. Since the watershed functions looks for local minimas to flood them, we gave it -D which is tha array of local maximas
+
+Back to our image, we give the pixels that are different than 0 a color. And we display the image.
